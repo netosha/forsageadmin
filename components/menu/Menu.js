@@ -11,13 +11,12 @@ function Menu(){
     return(
         <div className={styles.wrapper}>
             <div className={cn(styles.primary_box,{[styles.active]:router.pathname === '/' ? true : false})}>
-                <Icon.Users size={24}/>
+                <Icon.Users size={24} className={styles.icon}/>
                 <p className={styles.text}>Партнеры</p>
             </div>
-
-            <div className={cn(styles.secondary_box,{[styles.active]:router.pathname === '/funnels' ? true : false})}>
-                <Icon.Users size={24}/>
-                <p className={styles.secondary_text}>Воронки</p>
+            <div className={cn(styles.secondary_box,{[styles.active]:router.pathname === '/' ? true : false})}>
+                <Icon.Users size={24} className={styles.icon}/>
+                <p className={styles.text}>Партнеры</p>
             </div>
         </div>
     )
