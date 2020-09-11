@@ -8,8 +8,17 @@
     "start": "next start"
   },
   "dependencies": {
+    "flwww": "^2.0.15",
     "next": "9.5.3",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-feather": "^2.0.8",
+    "sass": "^1.26.10",
+    "styled-components": "^5.2.0",
+    "swr": "^0.3.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "cross-env": "^7.0.2"
   }
 }
