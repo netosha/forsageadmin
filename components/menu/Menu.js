@@ -14,6 +14,11 @@ function Menu(){
                 <Icon.Users size={24}/>
                 <p className={styles.text}>Партнеры</p>
             </div>
+
+            <div className={cn(styles.secondary_box,{[styles.active]:router.pathname === '/funnels' ? true : false})}>
+                <Icon.Users size={24}/>
+                <p className={styles.secondary_text}>Воронки</p>
+            </div>
         </div>
     )
 }

@@ -9,10 +9,31 @@
     padding:12px 24px;
 }
 
+.secondary_box{
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    color: #000;
+    border-radius: 8px;
+    padding: 0px 24px;
+    margin: 4px 0px;
+    transition: 0.3s;
+    &:hover{
+        background: #f0f0f0;
+    }
+}
+
 .text{
-    margin: 0px 0px 0px 40px;
+    margin: 0 0 0 90px;
     font-size: 18px;
     font-weight: 700;
+}
+
+.secondary_text{
+    margin: 0 0 0 90px;
+    font-size: 16px;;
+    font-weight: 500;
 }
 
 .active{

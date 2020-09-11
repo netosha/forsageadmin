@@ -21,7 +21,7 @@ export default function Home() {
         <main>
             <Container >
                 <Row>
-                    <Col grid='3'>
+                    <Col grid='4'>
                         <Menu />
                     </Col>
                 </Row>
