@@ -1,8 +1,12 @@
 .wrapper {
     width: 100%;
 
-    & > div{
+    & > a{
         margin-bottom: 12px;
+
+        &:last-child{
+            margin: 0;
+        }
     }
 }
 
@@ -20,7 +24,6 @@
     border-radius: 8px;
     display: flex;
     align-items: center;
-    background: #f0f0f0;
 }
 
 .icon{

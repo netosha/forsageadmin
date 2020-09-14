@@ -1,22 +1,21 @@
+
 import Router from 'next/router'
-import { Cookies } from 'react-cookie';
-import useUser from "../hooks/useUser";
-import { Container, Row, Col } from "flwww";
-import Menu from "../components/menu";
+import React from "react";
 import Head from "next/head";
 import Header from "../components/header";
+import {Col, Container, Row} from "flwww";
+import Menu from "../components/menu";
+import useUser from "../hooks/useUser";
 
-const cookies = new Cookies();
+export default function Profile() {
+    const [name, setName] = React.useState()
+    const { user, error, isValidating, mutate }  = useUser()
 
-export default function Dashboard() {
-    const {user, error}  = useUser()
-
-    // Redirect to login page if user unauthorized
     React.useEffect(() => {
-        if(!cookies.get('token')){
-            Router.push('/login')
+        if(!user){
+            Router.replace('/')
         }
-    })
+    }, user);
 
     return (
         <div>
@@ -24,7 +23,7 @@ export default function Dashboard() {
                 <title>Партнеры</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Header style={{marginBottom:32}} />
+            <Header style={{background:'blue'}} />
             <Container >
                 <Row>
                     <Col grid='sm-12 md-12 lg-4 xl-4'>
