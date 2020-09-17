@@ -16,13 +16,13 @@ function Menu(){
                     <p className={styles.text}>Главная</p>
                 </a>
             </Link>
-            <Link href={'/partners'}>
+            <Link href={'/partners/list'}>
                 <a className={cn(styles.secondary_box,{[styles.active]:router.pathname.startsWith('/partners')})}>
-                    <Icon.Users size={24} className={styles.icon}/>
+                    <Icon.UserCheck size={24} className={styles.icon}/>
                     <p className={styles.text}>Партнеры</p>
                 </a>
             </Link>
-            <Link href={'/leads'}>
+            <Link href={'/leads/list'}>
                 <a className={cn(styles.secondary_box,{[styles.active]:router.pathname.startsWith('/leads')})}>
                     <Icon.Users size={24} className={styles.icon}/>
                     <p className={styles.text}>Лиды</p>

@@ -2,10 +2,10 @@
 import Router from 'next/router'
 import React from "react";
 import Head from "next/head";
-import Header from "../components/header";
 import {Col, Container, Row} from "flwww";
 import Menu from "../components/menu";
 import useUser from "../hooks/useUser";
+import Header from "../components/header";
 
 export default function Profile() {
     const [name, setName] = React.useState()
@@ -23,7 +23,6 @@ export default function Profile() {
                 <title>Партнеры</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Header style={{background:'blue'}} />
             <Container >
                 <Row>
                     <Col grid='sm-12 md-12 lg-4 xl-4'>

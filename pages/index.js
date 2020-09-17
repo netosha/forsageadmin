@@ -8,21 +8,18 @@ import Header from "../components/header";
 
 const cookies = new Cookies();
 
-export default function Dashboard() {
-    const {user, error}  = useUser()
-
+export default function Dashboard({...props}) {
+    const {user, userError}  = useUser()
     // Redirect to login page if user unauthorized
     React.useEffect(() => {
         if(!cookies.get('token')){
             Router.push('/login')
         }
     })
-
     return (
         <div>
             <Head>
-                <title>Партнеры</title>
-                <link rel="icon" href="/favicon.ico" />
+                <title>Главная</title>
             </Head>
             <Header style={{marginBottom:32}} />
             <Container >
@@ -40,3 +37,4 @@ export default function Dashboard() {
         </div>
     )
 }
+
