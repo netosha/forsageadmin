@@ -28,6 +28,18 @@ function Menu(){
                     <p className={styles.text}>Лиды</p>
                 </a>
             </Link>
+            <Link href={'/funnels/list'}>
+                <a className={cn(styles.secondary_box,{[styles.active]:router.pathname.startsWith('/funnels')})}>
+                    <Icon.Filter size={24} className={styles.icon}/>
+                    <p className={styles.text}>Воронки</p>
+                </a>
+            </Link>
+            <Link href={'/adreffer/list'}>
+                <a className={cn(styles.secondary_box,{[styles.active]:router.pathname.startsWith('/adreffer')})}>
+                    <Icon.Flag size={24} className={styles.icon}/>
+                    <p className={styles.text}>Рефералки</p>
+                </a>
+            </Link>
         </div>
     )
 }

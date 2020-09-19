@@ -100,11 +100,30 @@ a.title{
 }
 
 .col{
-  padding: 12px 24px;
+  padding: 24px 24px;
   background: #f0f0f0;
   display: flex;
   flex-direction: column;
   border-radius: 8px;
+
+  .contact{
+    font-weight: 600;
+  }
+}
+
+.partnerCol{
+  padding: 24px 24px;
+  background: rgba(255, 204, 0, 0.9);
+  color:white;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+
+  @media(max-width: 992px) {
+    margin-top: 24px;
+  }
+
+
 }
 
 .table{
@@ -113,5 +132,26 @@ a.title{
 
   th{
     background: #f0f0f0;
+  }
+}
+
+.funnelCard{
+  color:black;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100px;
+  transition: 0.3s;
+  cursor:pointer;
+
+  &:hover{
+    background: #DDDDDD;
+  }
+
+   a.description  {
+      color:gray;
+      font-size: 14px;
   }
 }

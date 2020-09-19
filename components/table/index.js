@@ -5,21 +5,21 @@ const StyledTable = styled(Table)`
   td{
     padding: 0;
   }
-  
 `
 
 const ColWraper = styled.div`
   width: 100%;
   cursor: pointer;
   padding: .8rem 1rem;
+  background: ${props => props.active ? 'rgba(128, 208, 199, 0.2)' : ''};
 `
 
 
-function rowWraper(row, columns, onRowClick){
+function rowWraper(row, columns){
     for (let key of Object.keys(row)){
         // Check for meta keys
         if(columns.includes(key)){
-            row[key] = <ColWraper onClick={row.onClick}>{row[key]}</ColWraper>
+            row[key] = <ColWraper active={row.active} onClick={row.onClick}>{row[key]}</ColWraper>
         }
     }
     return row

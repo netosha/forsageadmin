@@ -15,10 +15,8 @@ import {Input} from "../../blocks";
 const cookies = new Cookies();
 
 export default function List() {
-    const {user, userError, isUserLoading}  = useUser()
+    const {user, userError}  = useUser()
     const {leads, leadsError } = useLeads()
-
-    const [leadPrice, setLeadPrice] = React.useState(250)
 
     // Redirect to login page if user unauthorized
     React.useEffect(() => {
@@ -36,7 +34,8 @@ export default function List() {
         "Телефон":pfns.format('+N (NNN) NNN-NNNN', lead.phone),
         // Meta info
         id:lead.id,
-        onClick:() => {Router.push('/lead/'+lead.id)}
+        onClick:() => {Router.push('/leads/'+lead.id)},
+        active:lead.stage == 6,
     }))
 
     return (

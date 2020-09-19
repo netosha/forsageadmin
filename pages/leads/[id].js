@@ -1,20 +1,19 @@
 import Router, {useRouter} from 'next/router'
 import { Cookies } from 'react-cookie';
 import useUser from "../../hooks/useUser";
-import { Container, Row, Col, Avatar } from "flwww";
+import { Container, Row, Col, Avatar, message } from "flwww";
 import * as pfns from 'phone-fns'
-import cn from 'classnames'
 import styles from '../../styles/Pages.module.scss'
 import Menu from "../../components/menu";
-import Table from "../../components/table";
 import Head from "next/head";
 import Link from "next/link";
 import Header from "../../components/header";
-import usePartner from "../../hooks/usePartner";
+import useLead from "../../hooks/useLead";
+import {Button} from '../../blocks/'
 import * as api from '../../api'
 const cookies = new Cookies();
 
-export default function Partner() {
+export default function Lead() {
     const {user, userError}  = useUser()
     // Redirect to login page if user unauthorized
     React.useEffect(() => {
@@ -24,23 +23,18 @@ export default function Partner() {
     })
 
     const {query} = useRouter()
-    const {partner, error}  = usePartner(query.id)
+    const {lead, error}  = useLead(query.id)
 
-    // Table of partner leads
-    const columns = [ "Имя", "Фамилия", "Телефон", "Прогресс"];
-    const rows = partner?.leads.map(lead => ({
-        "Имя":lead.first_name,
-        "Фамилия":lead.last_name,
-        "Прогресс":api.utils.currentStageName(lead.stage),
-        "Телефон":pfns.format('+N (NNN) NNN-NNNN', lead.phone),
-        // Meta info
-        id:lead.id,
-        onClick:() => {Router.push('/lead/'+lead.id)}
-    }))
+
+    // Make lead partner
+    async function applyLeadToPartner(){
+        const resp = api.admin.applyLeadToPartner(query.id).then(r => r.status == 'ok' ? Router.push('/partners/'+query.id) : Error(r)).catch(r => message(r?.data?.error, 'error'))
+    }
+
     return (
         <div>
             <Head>
-                <title>Профиль {partner?.email}</title>
+                <title>Профиль {lead?.email}</title>
             </Head>
             <Header style={{marginBottom:32}} />
             <Container >
@@ -51,43 +45,42 @@ export default function Partner() {
                     <Col grid='sm-12 md-12 lg-8 xl-8'>
                         <Row style={{marginBottom:24}}>
                             <Col grid='sm-12 md-12 lg-6 xl-6'>
-                                {partner && !error ?
+                                {lead && !error ?
                                     <div className={styles.col}>
-                                        <a className={styles.title}>{partner.username}</a>
-                                        <a>{partner.first_name}</a>
-                                        <a>{partner.last_name}</a>
-                                        <a>{partner.email}</a>
-                                        {partner.instagram ? <Link href={`https://instagram.com/${partner.instagram}`}><a>https://instagram.com/{partner.instagram}</a></Link> : ''}
-                                        {partner.telegram ? <Link href={`https://t.me/${partner.telegram}`}><a>https://t.me/{partner.telegram}</a></Link> : ''}
-                                        <a>{pfns.format('+N (NNN) NNN-NNNN', partner.phone)}</a>
+                                        <a className={styles.title}>{lead.username}</a>
+                                        <a>{lead.first_name}</a>
+                                        <a>{lead.last_name}</a>
+                                        <a>{lead.email}</a>
+                                        <a>{pfns.format('+N (NNN) NNN-NNNN', lead.phone)}</a>
+                                        {lead.instagram ? <Link href={`https://instagram.com/${lead.instagram}`}><a>https://instagram.com/{lead.instagram}</a></Link> : ''}
+                                        {lead.telegram ? <Link href={`https://t.me/${lead.telegram}`}><a>https://t.me/{lead.telegram}</a></Link> : ''}
                                     </div>
                                     :
                                     'loading'
                                 }
                             </Col>
                             <Col grid='sm-12 md-12 lg-6 xl-6'>
-                                {partner && !error ?
-                                    <div className={styles.col}>
-                                        <a className={styles.title}>Платежи</a>
-                                        <a>
-                                            Кабинет акктивен до: {( () => {return new Date(partner.paid_until).toLocaleDateString()} )()}
+                                {lead && !error ?
+                                    <Link href={'/partners/'+lead.connected_partner.id}>
+                                        <a className={styles.partnerCol}>
+                                            <a className={styles.title}>Партнер</a>
+                                            <a className={styles.contact}>{lead.connected_partner.first_name} {lead.connected_partner.last_name}</a>
                                         </a>
-                                    </div>
+                                    </Link>
                                     :
                                     'loading'
                                 }
                             </Col>
+
                         </Row>
                         <Row>
-                            <Col grid={'12'}>
-                                {partner?.leads ?
-                                    <div className={styles.table}>
-                                        <a className={styles.title}>Лиды партнера</a>
-                                        <Table
-                                            bordered
-                                            rows={rows}
-                                            columns={columns}
-                                        />
+                            <Col grid='sm-12 md-12 lg-6 xl-6'>
+                                {lead && !error ?
+                                    <div className={styles.col}>
+                                        <a className={styles.title}>Обучение</a>
+                                        <a style={{paddingBottom:8}}>{api.utils.currentStageName(lead.stage)}</a>
+                                        {lead.stage == 6 ? <Button style={{marginBottom:8}} onClick={applyLeadToPartner}>Сделать партнером</Button> : ''}
+                                        {/*{lead.stage == 3 ? <Button>Открыть обучение</Button> : ''}*/}
                                     </div>
                                     :
                                     'loading'

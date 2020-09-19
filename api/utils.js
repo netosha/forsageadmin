@@ -1,5 +1,7 @@
 export function currentStageName(stage){
     switch (stage) {
+        case -1:
+            return 'Ожидает доступа к обучению'
         case 0:
             return 'Изучает первое видео'
         case 1:

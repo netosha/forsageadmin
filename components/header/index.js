@@ -12,6 +12,7 @@ function Header({...props}){
 
     return(
         <div className={styles.wrapper} {...props} >
+            {cookies.get('token')}
             {user ? <button onClick={() => {cookies.set('token', ''); Router.replace('/login'); mutate(null)}}>Выйти</button> : ''}
         </div>
     )

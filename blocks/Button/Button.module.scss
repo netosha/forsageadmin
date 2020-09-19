@@ -1,0 +1,23 @@
+.button{
+  display: inline-flex;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  font-family: "Montserrat", serif;
+  color: white;
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 700;
+  font-style: normal;
+  transition: 0.3s;
+  background: #80d0c7;
+
+  &:hover{
+    background: #80C0D0;
+  }
+}
+
+.disabled{
+  background: rgba(128, 128, 128, 0.5);
+}
