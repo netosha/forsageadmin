@@ -14,13 +14,14 @@ import * as api from '../../api'
 const cookies = new Cookies();
 
 export default function Lead() {
-    const {user, userError}  = useUser()
     // Redirect to login page if user unauthorized
     React.useEffect(() => {
         if(!cookies.get('token')){
             Router.push('/login')
         }
     })
+
+    const {user, userError}  = useUser()
 
     const {query} = useRouter()
     const {lead, error}  = useLead(query.id)
@@ -62,9 +63,9 @@ export default function Lead() {
                             <Col grid='sm-12 md-12 lg-6 xl-6'>
                                 {lead && !error ?
                                     <Link href={'/partners/'+lead.connected_partner.id}>
-                                        <a className={styles.partnerCol}>
+                                        <a className={styles.col}>
                                             <a className={styles.title}>Партнер</a>
-                                            <a className={styles.contact}>{lead.connected_partner.first_name} {lead.connected_partner.last_name}</a>
+                                            <a >{lead.connected_partner.first_name} {lead.connected_partner.last_name}</a>
                                         </a>
                                     </Link>
                                     :
@@ -79,7 +80,7 @@ export default function Lead() {
                                     <div className={styles.col}>
                                         <a className={styles.title}>Обучение</a>
                                         <a style={{paddingBottom:8}}>{api.utils.currentStageName(lead.stage)}</a>
-                                        {lead.stage == 6 ? <Button style={{marginBottom:8}} onClick={applyLeadToPartner}>Сделать партнером</Button> : ''}
+                                        {lead.stage == 6 ? <Button onClick={applyLeadToPartner}>Сделать партнером</Button> : ''}
                                         {/*{lead.stage == 3 ? <Button>Открыть обучение</Button> : ''}*/}
                                     </div>
                                     :

@@ -19,14 +19,14 @@ function rowWraper(row, columns){
     for (let key of Object.keys(row)){
         // Check for meta keys
         if(columns.includes(key)){
-            row[key] = <ColWraper active={row.active} onClick={row.onClick}>{row[key]}</ColWraper>
+            row[key] = <ColWraper active={row.active}  onClick={row.onClick}>{row[key]}</ColWraper>
         }
     }
     return row
 }
 
 export default function CustomTable({...props}){
-    const rows = props.rows.forEach(row => rowWraper(row, props.columns))
+    const rows = props.rows.forEach((row) => rowWraper(row, props.columns))
     return(
         <StyledTable
             {...props}

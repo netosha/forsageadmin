@@ -43,6 +43,34 @@ export async function setStudyModuleOrder(funnel_id, study_modules){
     return resp
 }
 
+export async function leadFunnelInfo(id){
+    var requestHeaders = new Headers();
+    requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
+    requestHeaders.append("Content-Type", `application/json`);
+    var requestOptions = {
+        method: 'GET',
+        headers: requestHeaders,
+        redirect: 'follow',
+    };
+    const resp = await fetcher('/partner/funnel/info?id='+id, requestOptions)
+    return resp
+}
+
+export async function editLeadFunnel(id, name, study_time, mode, entryVideos, business_offer=0, preset=0){
+    console.log(JSON.stringify({id, name, study_time, mode, entryVideos, business_offer, preset}))
+    var requestHeaders = new Headers();
+    requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
+    requestHeaders.append("Content-Type", `application/json`);
+    var requestOptions = {
+        method: 'PUT',
+        headers: requestHeaders,
+        redirect: 'follow',
+        body:JSON.stringify({id, name, study_time, mode, entryVideos, business_offer, preset})
+    };
+    const resp = await fetcher('/partner/funnel', requestOptions)
+    return resp
+}
+
 export async function updateStudyModule(id, name, text, pub=0){
     var requestHeaders = new Headers();
     requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
@@ -66,5 +94,17 @@ export async function deleteStudyModule(id){
         redirect: 'follow',
     };
     const resp = await fetcher('/partner/study_module?id='+id, requestOptions)
+    return resp
+}
+
+export async function landingList(){
+    var requestHeaders = new Headers();
+    requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
+    var requestOptions = {
+        method: 'GET',
+        headers: requestHeaders,
+        redirect: 'follow',
+    };
+    const resp = await fetcher('/partner/landing/list', requestOptions)
     return resp
 }

@@ -40,7 +40,7 @@ export default function List() {
     return (
         <div>
             <Head>
-                <title>Партнеры</title>
+                <title>Список партнеров</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
@@ -50,7 +50,7 @@ export default function List() {
                     <Col grid='sm-12 md-12 lg-4 xl-4'>
                         <Menu />
                     </Col>
-                    <Col grid='sm-12 md-12 lg-8 xl-8' style={{padding:0}}>
+                    <Col grid='sm-12 md-12 lg-8 xl-8'>
                         <div className={styles.table}>
                             {partners ?
                                 <Table

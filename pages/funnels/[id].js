@@ -14,15 +14,18 @@ import StudyModuleCard from "../../components/studymodulecard/";
 import Table from "../../components/table/";
 
 import {Button} from "../../blocks";
+import * as pfns from "phone-fns";
 const cookies = new Cookies();
 
 export default function Funnel() {
-    const {user, userError}  = useUser()
+    // Redirect to login page if user unauthorized
     React.useEffect(() => {
         if(!cookies.get('token')){
             Router.push('/login')
         }
     })
+
+    const {user, userError}  = useUser()
 
     const {query} = useRouter()
     const {funnel, error, mutate:mutateFunnel} = useFunnel(query.id)
@@ -61,8 +64,8 @@ export default function Funnel() {
         mutateFunnel()
     }
 
-    let studyModules = funnel?.study_modules?.map(module => (<Col grid={"3"} key={module.id}> <StudyModuleCard onDelete={deleteStudyModule} onSave={(id, name, text) => updateStudyModule(id, name, text)} id={module.id} name={module.name} text={module.text} /></Col>))
-    studyModules?.push(<Col grid={"3"} key={'create'}> <StudyModuleCard create onSave={(name, text) => createStudyModule(name, text)}/></Col>)
+    let studyModules = funnel?.study_modules?.map(module => (<Col grid='sm-6 md-6 lg-3 xl-3' style={{marginBottom:16}} key={module.id}> <StudyModuleCard onDelete={deleteStudyModule} onSave={(id, name, text) => updateStudyModule(id, name, text)} id={module.id} name={module.name} text={module.text} /></Col>))
+    studyModules?.push(<Col grid='sm-6 md-6 lg-3 xl-3' key={'create'}> <StudyModuleCard create onSave={(name, text) => createStudyModule(name, text)}/></Col>)
 
     // Init table
     const columns = ['Имя', 'Фамилия','Телефон', 'Стадия']
@@ -70,7 +73,7 @@ export default function Funnel() {
         {
             'Имя':partner.first_name,
             'Фамилия':partner.last_name,
-            'Телефон':partner.phone,
+            'Телефон':pfns.format('+N (NNN) NNN-NNNN', partner.phone),
             'Стадия':api.utils.currentStageName(partner.stage),
             active:partner.stage == -1,
             onClick:() => {applyPartner(partner.id)}

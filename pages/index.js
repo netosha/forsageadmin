@@ -10,13 +10,14 @@ import styles from '../styles/Pages.module.scss'
 const cookies = new Cookies();
 
 export default function Dashboard({...props}) {
-    const {user, userError}  = useUser()
     // Redirect to login page if user unauthorized
     React.useEffect(() => {
         if(!cookies.get('token')){
             Router.push('/login')
         }
     })
+
+    const {user, userError}  = useUser()
     return (
         <div>
             <Head>

@@ -11,13 +11,11 @@ import useLeads from "../../hooks/useLeads";
 import * as pfns from 'phone-fns'
 import styles from '../../styles/Pages.module.scss'
 import {Input} from "../../blocks";
+import {Select} from "../../blocks";
 
 const cookies = new Cookies();
 
 export default function List() {
-    const {user, userError}  = useUser()
-    const {leads, leadsError } = useLeads()
-
     // Redirect to login page if user unauthorized
     React.useEffect(() => {
         if(!cookies.get('token')){
@@ -25,9 +23,17 @@ export default function List() {
         }
     })
 
+    const {user, userError}  = useUser()
+    const {leads, leadsError } = useLeads()
+    const [filter, setFilter] = React.useState('any')
+
+    React.useEffect(()=>{console.log(leadsError)}, [leadsError])
+
     // Define columns of table
     const columns = [ "Имя", "Фамилия", "Телефон", "Прогресс"];
-    const rows = leads?.map(lead => ({
+    const filteredLeads = filter === 'any' ? leads : leads.filter(lead => lead.stage == filter)
+
+    const rows = filteredLeads?.map(lead => ({
         "Имя":lead.first_name,
         "Фамилия":lead.last_name,
         "Прогресс":api.utils.currentStageName(lead.stage),
@@ -41,7 +47,7 @@ export default function List() {
     return (
         <div>
             <Head>
-                <title>Партнеры</title>
+                <title>Список лидов</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
@@ -51,7 +57,24 @@ export default function List() {
                     <Col grid='sm-12 md-12 lg-4 xl-4'>
                         <Menu />
                     </Col>
-                    <Col grid='sm-12 md-12 lg-8 xl-8' style={{padding:0}}>
+                    <Col grid='sm-12 md-12 lg-8 xl-8'>
+                        <Row>
+                            <Col grid={'12'} style={{marginBottom:16}}>
+                                <Select
+                                    value={filter}
+                                    onChange={e => setFilter(e.target.value)}
+                                >
+                                    <option value={'any'}>Любая стадия</option>
+                                    <option value={0}>{api.utils.currentStageName(0)}</option>
+                                    <option value={1}>{api.utils.currentStageName(1)}</option>
+                                    <option value={2}>{api.utils.currentStageName(2)}</option>
+                                    <option value={3}>{api.utils.currentStageName(3)}</option>
+                                    <option value={4}>{api.utils.currentStageName(4)}</option>
+                                    <option value={5}>{api.utils.currentStageName(5)}</option>
+                                    <option value={6}>{api.utils.currentStageName(6)}</option>
+                                </Select>
+                            </Col>
+                        </Row>
                         <Row>
                             <Col grid={'12'}>
                                 <div>

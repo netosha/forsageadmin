@@ -14,8 +14,6 @@ import Link from "next/link";
 const cookies = new Cookies();
 
 export default function List() {
-    const {user, userError}  = useUser()
-    const {funnels, funnelsError } = useFunnels()
     // Redirect to login page if user unauthorized
     React.useEffect(() => {
         if(!cookies.get('token')){
@@ -23,8 +21,11 @@ export default function List() {
         }
     })
 
+    const {user, userError}  = useUser()
+    const {funnels, funnelsError } = useFunnels()
+
     let funnelCards = funnels?.map(funnel => (
-        <Col grid={'4'} key={funnel.id}>
+        <Col grid='sm-12 md-12 lg-4 xl-4' key={funnel.id}>
             <Link href={'/funnels/'+funnel.id}>
                 <div className={styles.funnelCard} style={{marginBottom:16}}>
                     <a className={styles.title} style={{marginBottom:0}}>
@@ -41,7 +42,7 @@ export default function List() {
     ))
 
     funnelCards?.push(
-        <Col grid={'4'}>
+        <Col grid='sm-12 md-12 lg-4 xl-4'>
             <Link href={'/funnels/new'} >
                 <div className={styles.funnelCard} style={{marginBottom:16,alignItems:'center', justifyContent:'center'}}>
                     <Icon.Plus size={48} color={'#555555'} />
@@ -63,7 +64,7 @@ export default function List() {
                     <Col grid='sm-12 md-12 lg-4 xl-4'>
                         <Menu />
                     </Col>
-                    <Col grid='sm-12 md-12 lg-8 xl-8' style={{padding:0}}>
+                    <Col grid='sm-12 md-12 lg-8 xl-8'>
                         <Row>
                             {funnelCards}
                         </Row>

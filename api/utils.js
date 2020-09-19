@@ -9,7 +9,7 @@ export function currentStageName(stage){
         case 2:
             return 'Просмотрел вступительные видео'
         case 3:
-            return 'Ожидает подтверждения'
+            return 'Ожидает подтверждения обучения'
         case 4:
             return 'Изучает обучающие модули'
         case 5:

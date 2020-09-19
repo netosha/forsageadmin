@@ -13,13 +13,12 @@ import StudyModuleCard from "../../components/studymodulecard/";
 const cookies = new Cookies();
 
 export default function Lead() {
-    const {user, userError}  = useUser()
     React.useEffect(() => {
         if(!cookies.get('token')){
             Router.push('/login')
         }
     })
-
+    const {user, userError}  = useUser()
     const {query} = useRouter()
     const [name, setName] = React.useState('')
     const [studyModules, setStudyModules] = React.useState([])

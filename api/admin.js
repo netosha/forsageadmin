@@ -129,14 +129,29 @@ export async function applyPartnerToNextStage(funnel_id, partner_id){
 
 
 
-export async function adRefferList(){
+export async function landingRefferList(){
     var requestHeaders = new Headers();
+    requestHeaders.append("Content-Type", `application/json`);
     requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
     var requestOptions = {
         method: 'GET',
         headers: requestHeaders,
         redirect: 'follow'
     };
-    const resp = await fetcher('/admin/ad_reffer/list', requestOptions)
+    const resp = await fetcher('/admin/landingreffer/list', requestOptions)
+    return resp
+}
+
+export async function editLandingReffer(id, landing_id, name, price, default_funnel_id){
+    var requestHeaders = new Headers();
+    requestHeaders.append("Content-Type", `application/json`);
+    requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
+    var requestOptions = {
+        method: 'POST',
+        headers: requestHeaders,
+        redirect: 'follow',
+        body:JSON.stringify({id, landing_id, name, price, default_funnel_id})
+    };
+    const resp = await fetcher('/admin/landingreffer/edit', requestOptions)
     return resp
 }

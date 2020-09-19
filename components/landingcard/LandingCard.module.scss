@@ -1,0 +1,30 @@
+.LandingCard{
+  color:black;
+  background: #f0f0f0;
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100px;
+  transition: 0.3s;
+  cursor:pointer;
+
+  &:hover{
+    background: #DDDDDD;
+  }
+
+  a.title{
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 18px;
+  }
+}
+
+.active{
+  color:white;
+  background: #80d0c7;
+
+  &:hover{
+    background: #80C0D0;
+  }
+}
