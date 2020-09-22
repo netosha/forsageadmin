@@ -30,7 +30,7 @@ export default function List() {
     React.useEffect(()=>{console.log(leadsError)}, [leadsError])
 
     // Define columns of table
-    const columns = [ "Имя", "Фамилия", "Телефон", "Прогресс"];
+    const columns = [ "Имя", "Фамилия", "Телефон", "Прогресс", "Партнер"];
     const filteredLeads = filter === 'any' ? leads : leads.filter(lead => lead.stage == filter)
 
     const rows = filteredLeads?.map(lead => ({
@@ -38,6 +38,7 @@ export default function List() {
         "Фамилия":lead.last_name,
         "Прогресс":api.utils.currentStageName(lead.stage),
         "Телефон":pfns.format('+N (NNN) NNN-NNNN', lead.phone),
+        "Партнер":`${lead.partner.first_name} ${lead.partner.last_name}`,
         // Meta info
         id:lead.id,
         onClick:() => {Router.push('/leads/'+lead.id)},

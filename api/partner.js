@@ -56,6 +56,19 @@ export async function leadFunnelInfo(id){
     return resp
 }
 
+export async function leadFunnelList(){
+    var requestHeaders = new Headers();
+    requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
+    requestHeaders.append("Content-Type", `application/json`);
+    var requestOptions = {
+        method: 'GET',
+        headers: requestHeaders,
+        redirect: 'follow',
+    };
+    const resp = await fetcher('/partner/funnel/list', requestOptions)
+    return resp
+}
+
 export async function editLeadFunnel(id, name, study_time, mode, entryVideos, business_offer=0, preset=0){
     console.log(JSON.stringify({id, name, study_time, mode, entryVideos, business_offer, preset}))
     var requestHeaders = new Headers();
@@ -70,6 +83,35 @@ export async function editLeadFunnel(id, name, study_time, mode, entryVideos, bu
     const resp = await fetcher('/partner/funnel', requestOptions)
     return resp
 }
+
+export async function createLeadFunnel(name, study_time, mode, entryVideos, business_offer=0, preset=0){
+    console.log(JSON.stringify({name, study_time, mode, entryVideos, business_offer, preset}))
+    var requestHeaders = new Headers();
+    requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
+    requestHeaders.append("Content-Type", `application/json`);
+    var requestOptions = {
+        method: 'POST',
+        headers: requestHeaders,
+        redirect: 'follow',
+        body:JSON.stringify({name, study_time, mode, entryVideos, business_offer, preset})
+    };
+    const resp = await fetcher('/partner/funnel', requestOptions)
+    console.l
+    return resp
+}
+
+export async function deleteLeadFunnel(id){
+    var requestHeaders = new Headers();
+    requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
+    var requestOptions = {
+        method: 'DELETE',
+        headers: requestHeaders,
+        redirect: 'follow',
+    };
+    const resp = await fetcher('/partner/funnel?id='+id, requestOptions)
+    return resp
+}
+
 
 export async function updateStudyModule(id, name, text, pub=0){
     var requestHeaders = new Headers();

@@ -47,7 +47,7 @@ export default function EntryVideoCard({...props}){
             <div
                 className={styles.EntryVideoCard}
                 onClick={() => setModalVisible(!isModalVisible)}
-                style={{background: `url(https://img.youtube.com/vi/${videoId(url)}/mqdefault.jpg)`}}
+                style={{background: `url(https://img.youtube.com/vi/${videoId(url)}/mqdefault.jpg)`,backgroundSize:'cover'}}
             >
                 {videoId(url) ?  <Icon.Edit3 size={48} color={'white'} /> : <Icon.Plus size={48} color={'gray'} /> }
             </div>

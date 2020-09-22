@@ -59,12 +59,7 @@ export default function Funnel() {
         Router.push('/funnels/list')
     }
 
-    async function applyPartner(partner_id){
-        await api.admin.applyPartnerToNextStage(query.id, partner_id)
-        mutateFunnel()
-    }
-
-    let studyModules = funnel?.study_modules?.map(module => (<Col grid='sm-6 md-6 lg-3 xl-3' style={{marginBottom:16}} key={module.id}> <StudyModuleCard onDelete={deleteStudyModule} onSave={(id, name, text) => updateStudyModule(id, name, text)} id={module.id} name={module.name} text={module.text} /></Col>))
+    let studyModules = funnel?.study_modules?.map(module => (<Col grid='sm-6 md-6 lg-3 xl-3' key={module.id}> <StudyModuleCard onDelete={deleteStudyModule} onSave={(id, name, text) => updateStudyModule(id, name, text)} id={module.id} name={module.name} text={module.text} /></Col>))
     studyModules?.push(<Col grid='sm-6 md-6 lg-3 xl-3' key={'create'}> <StudyModuleCard create onSave={(name, text) => createStudyModule(name, text)}/></Col>)
 
     // Init table
@@ -76,7 +71,7 @@ export default function Funnel() {
             'Телефон':pfns.format('+N (NNN) NNN-NNNN', partner.phone),
             'Стадия':api.utils.currentStageName(partner.stage),
             active:partner.stage == -1,
-            onClick:() => {applyPartner(partner.id)}
+            onClick:() => {Router.push('/partners/'+partner.id)}
         }
         )
     )
@@ -92,7 +87,7 @@ export default function Funnel() {
                         <Menu />
                     </Col>
                     <Col grid='sm-12 md-12 lg-8 xl-8'>
-                        <Row style={{marginBottom:24}}>
+                        <Row>
                             <Col grid='12'>
                                 {funnel ?
                                     <div className={styles.col}>
@@ -111,7 +106,7 @@ export default function Funnel() {
                             </Col>
                         </Row>
 
-                        <Row style={{marginBottom:24}}>
+                        <Row>
                             <Col grid='12'>
                                 {funnel?.study_modules ?
                                     <div className={styles.col}>

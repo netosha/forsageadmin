@@ -20,7 +20,8 @@
 
 .secondary_box{
     position: relative;
-    padding: 8px 24px;
+    padding: 12px 24px;
+
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -34,6 +35,10 @@
     font-size: 18px;
     font-weight: 600;
     margin:0 auto;
+
+    @media(max-width: 1200px) {
+        font-size: 14px;
+    }
 }
 
 .active{

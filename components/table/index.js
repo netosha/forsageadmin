@@ -3,15 +3,18 @@ import styled from "styled-components";
 
 const StyledTable = styled(Table)`
   td{
-    padding: 0;
+    padding: 0px;
+  }
+  tr{
+    padding: 0px;
   }
 `
 
 const ColWraper = styled.div`
-  width: 100%;
   cursor: pointer;
-  padding: .8rem 1rem;
-  background: ${props => props.active ? 'rgba(128, 208, 199, 0.2)' : ''};
+  padding: 10px 12px;
+  background: ${props => props.active ? 'rgba(255, 204, 102, 0.5)' : ''};
+ 
 `
 
 

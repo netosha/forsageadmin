@@ -10,6 +10,9 @@ import * as api from '../../api'
 import Input from "../../blocks/Input";
 import {Button} from '../../blocks/'
 import StudyModuleCard from "../../components/studymodulecard/";
+import EntryVideoCard from "../../components/entryvideocard";
+import Select from "../../blocks/Select";
+import {setEntryVideo} from "../../../forsage/src/redux/funnel/actions";
 const cookies = new Cookies();
 
 export default function New() {
@@ -22,6 +25,8 @@ export default function New() {
     const {query} = useRouter()
     const [name, setName] = React.useState('')
     const [studyModules, setStudyModules] = React.useState([])
+    const [entryVideos, setEntryVideos] = React.useState([])
+    const [mode, setMode] = React.useState(0)
 
     function createStudyModule(name, text){
         setStudyModules([...studyModules, {name, text}])
@@ -34,20 +39,31 @@ export default function New() {
                 text
             },
             ...studyModules.slice(index+1, studyModules.length)
-            ])
+        ])
     }
 
     function deleteStudyModule(index){
         setStudyModules([...studyModules.slice(0, index), ...studyModules.slice(index+1, studyModules.length)])
     }
 
+    function editEntryVideos(index, url, title, description){
+        setEntryVideos([...entryVideos.slice(0, index),
+            {
+                url,
+                title,
+                description,
+            },
+            ...entryVideos.slice(index+1, entryVideos.length)
+        ])
+    }
+
     async function createFunnel(){
-        const funnel = await api.admin.createPartnerFunnel(name)
+        const funnel = await api.partner.createLeadFunnel(name, 1488, mode, entryVideos, 'loxloxlox', 1)
+        console.log(funnel)
         const createdStudyModules = await Promise.all(studyModules.map(module => api.partner.createStudyModule(module.name, module.text)))
         const order = createdStudyModules.map(module => ({id:module.id}))
-        api.partner.setStudyModuleOrder(funnel.id, order)
-
-        Router.push('/funnels/list')
+        await api.partner.setStudyModuleOrder(funnel.id, order)
+        Router.push('/presets/list')
     }
 
     let studyModuleCards = studyModules.map((module, index) => (<Col grid={"3"} key={module.name}> <StudyModuleCard onDelete={deleteStudyModule} onSave={editStudyModule} id={index} name={module.name} text={module.text} /></Col>))
@@ -64,10 +80,11 @@ export default function New() {
                         <Menu />
                     </Col>
                     <Col grid='sm-12 md-12 lg-8 xl-8'>
-                        <Row >
+                        <Row>
                             <Col grid='12'>
                                 <div className={styles.col}>
                                     <a className={styles.title}>Настройки воронки</a>
+                                    <div></div>
                                     <Input
                                         name={'name'}
                                         type={'text'}
@@ -75,11 +92,51 @@ export default function New() {
                                         onChange={e => setName(e.target.value)}
                                         value={name}
                                     />
+                                    <Select value={mode} onChange={e => setMode(e.target.value)} style={{marginTop:16, background:'white'}}>
+                                        <option>
+                                            Автоматическая
+                                        </option>
+                                        <option>
+                                            Ручная
+                                        </option>
+                                    </Select>
                                 </div>
                             </Col>
                         </Row>
 
+
                         <Row>
+                            <Col grid={'12'}>
+                                {/* Prevent SSR of flawwwles modal (because it calls document on server) */}
+                                {process.browser ?
+                                    <div className={styles.col}>
+                                        <a className={styles.title} style={{marginBottom:8}}>Обучающие видео</a>
+                                        <Row>
+                                            <Col grid='sm-12 md-12 lg-6 xl-6'>
+                                                <EntryVideoCard
+                                                    title={entryVideos?.[0]?.title}
+                                                    description={entryVideos?.[0]?.description}
+                                                    url={entryVideos?.[0]?.url}
+                                                    onSave={(url,title,description) =>{editEntryVideos(0, url, title, description)}}
+                                                />
+                                            </Col>
+                                            <Col grid='sm-12 md-12 lg-6 xl-6'>
+                                                <EntryVideoCard
+                                                    title={entryVideos?.[1]?.title}
+                                                    description={entryVideos?.[1]?.description}
+                                                    url={entryVideos?.[1]?.url}
+                                                    onSave={(url,title,description) =>{editEntryVideos(1, url, title, description)}}
+                                                />
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                    :
+                                    "loading funnel"
+                                }
+                            </Col>
+                        </Row>
+
+                        <Row style={{marginBottom:24}}>
                             <Col grid='12'>
                                 <div className={styles.col}>
                                     <a className={styles.title}>Обучающие модули</a>
@@ -91,10 +148,11 @@ export default function New() {
                             </Col>
                         </Row>
 
+
                         <Row>
                             <Col grid={"12"}>
-                                {name.length && studyModules.length ?
-                                    <Button onClick={createFunnel}>
+                                {name.length && studyModules.length && entryVideos.length == 2 ?
+                                    <Button onClick={() => createFunnel()}>
                                         Создать
                                     </Button>
                                     :

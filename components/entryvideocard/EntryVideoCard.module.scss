@@ -6,6 +6,9 @@
   border-radius: 8px;
   background: #f0f0f0;
   transition: 0.5s;
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+  background-position: left top;
 
   &:hover{
     background: #DDDDDD;
