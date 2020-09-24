@@ -12,7 +12,6 @@ import {Button} from '../../blocks/'
 import StudyModuleCard from "../../components/studymodulecard/";
 import EntryVideoCard from "../../components/entryvideocard";
 import Select from "../../blocks/Select";
-import {setEntryVideo} from "../../../forsage/src/redux/funnel/actions";
 const cookies = new Cookies();
 
 export default function New() {
