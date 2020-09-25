@@ -31,16 +31,20 @@ export default function Funnel() {
     const {user, userError}  = useUser()
     const [name, setName] = React.useState('')
     const [mode, setMode] = React.useState(0)
+    const [studyTime, setStudyTime] = React.useState(1)
+
     const {funnel, mutate:mutateFunnel} = useLeadFunnel(query.id)
     React.useEffect(()=>{if(!name){setName(funnel?.name)}}, [funnel])
     React.useEffect(()=>{if(!mode){setMode(funnel?.mode)}}, [funnel])
+    React.useEffect(()=>{setStudyTime(funnel?.study_time / 3600 / 24)}, [funnel])
+
 
     React.useEffect(() => {
         if(name){
             api.partner.editLeadFunnel(
                 funnel.id,
                 name,
-                1488,
+                studyTime*3600*24,
                 mode,
                 funnel.entryVideos,
                 funnel.business_offer,
@@ -48,13 +52,15 @@ export default function Funnel() {
             )
             mutateFunnel()
         }
-    }, [name, mode])
+    }, [name, mode, studyTime])
+
+
 
     async function updateEntryVideos(index, url, title, description){
         await api.partner.editLeadFunnel(
             funnel.id,
             funnel.name,
-            1488,
+            studyTime*3600*24,
             funnel.mode,
             [...funnel.entryVideos.slice(0, index), {title,url,description}, ...funnel.entryVideos.slice(index+1, funnel.entryVideos.length)],
             funnel.business_offer,
@@ -123,6 +129,29 @@ export default function Funnel() {
                                             </option>
                                             <option value={1}>
                                                 Автоматическая
+                                            </option>
+                                        </Select>
+                                        <Select value={studyTime} onChange={e => setStudyTime(e.target.value)} style={{marginTop:16, background:'white'}}>
+                                            <option value={1}>
+                                                1 сутки
+                                            </option>
+                                            <option value={2}>
+                                                2 суток
+                                            </option>
+                                            <option value={3}>
+                                                3 суток
+                                            </option>
+                                            <option value={4}>
+                                                4 суток
+                                            </option>
+                                            <option value={5}>
+                                                5 суток
+                                            </option>
+                                            <option value={6}>
+                                                6 суток
+                                            </option>
+                                            <option value={7}>
+                                                7 суток
                                             </option>
                                         </Select>
                                     </div>

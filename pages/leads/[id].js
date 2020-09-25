@@ -44,17 +44,16 @@ export default function Lead() {
                         <Menu />
                     </Col>
                     <Col grid='sm-12 md-12 lg-8 xl-8'>
-                        <Row style={{marginBottom:24}}>
+                        <Row>
                             <Col grid='sm-12 md-12 lg-6 xl-6'>
                                 {lead && !error ?
                                     <div className={styles.col}>
-                                        <a className={styles.title}>{lead.username}</a>
+                                        <a className={styles.title}>{lead.email}</a>
                                         <a>{lead.first_name}</a>
                                         <a>{lead.last_name}</a>
-                                        <a>{lead.email}</a>
                                         <a>{pfns.format('+N (NNN) NNN-NNNN', lead.phone)}</a>
-                                        {lead.instagram ? <Link href={`https://instagram.com/${lead.instagram}`}><a>https://instagram.com/{lead.instagram}</a></Link> : ''}
-                                        {lead.telegram ? <Link href={`https://t.me/${lead.telegram}`}><a>https://t.me/{lead.telegram}</a></Link> : ''}
+                                        {lead.instagram ? <Link href={lead.instagram}><a>{lead.instagram}</a></Link> : ''}
+                                        {lead.telegram ? <Link href={lead.telegram}><a>{lead.telegram}</a></Link> : ''}
                                     </div>
                                     :
                                     'loading'
@@ -66,6 +65,7 @@ export default function Lead() {
                                         <a className={styles.col}>
                                             <a className={styles.title}>Партнер</a>
                                             <a >{lead.connected_partner.first_name} {lead.connected_partner.last_name}</a>
+                                            <a>{lead.connected_partner.email}</a>
                                         </a>
                                     </Link>
                                     :

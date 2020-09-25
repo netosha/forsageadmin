@@ -15,6 +15,7 @@ import LandingCard from "../../components/landingcard";
 import EntryVideoCard from "../../components/entryvideocard/";
 import {mutate} from "swr";
 import StudyModuleCard from "../../components/studymodulecard";
+import Select from "../../blocks/Select";
 const cookies = new Cookies();
 
 export default function AdReffer() {
@@ -25,10 +26,13 @@ export default function AdReffer() {
         }
     })
 
+
     const {query} = useRouter()
     const {user, userError}  = useUser()
     const [name, setName] = React.useState('')
     const [price, setPrice] = React.useState('')
+    const [studyTime, setStudyTime] = React.useState('')
+
     const {adreffers, adreffersError} = useAdReffers()
     const {landings, landingsError} = useLandings()
 
@@ -37,20 +41,36 @@ export default function AdReffer() {
 
     React.useEffect(()=>{setName(adreffer?.name)}, [adreffer])
     React.useEffect(()=>{setPrice(adreffer?.price)}, [adreffer])
+    React.useEffect(()=>{setStudyTime(funnel?.study_time / 3600 / 24)}, [funnel])
 
     React.useEffect(() => {
         if(name && price){
             api.admin.editLandingReffer(query.id, adreffer.landing.id, name, price, adreffer.default_funnel.id)
         }
     }, [name, price])
+    
+    React.useEffect(() => {if(funnel){updateStudyTime()}}, [studyTime])
 
     async function updateEntryVideos(index, url, title, description){
         await api.partner.editLeadFunnel(
             funnel.id,
             funnel.name,
-            1488,
+            funnel.study_time,
             funnel.mode,
             [...funnel.entryVideos.slice(0, index), {title,url,description}, ...funnel.entryVideos.slice(index+1, funnel.entryVideos.length)],
+            funnel.business_offer,
+            0
+        )
+        mutateFunnel()
+    }
+
+    async function updateStudyTime(){
+        await api.partner.editLeadFunnel(
+            funnel.id,
+            funnel.name,
+            studyTime * 3600 * 24,
+            funnel.mode,
+            funnel.entryVideos,
             funnel.business_offer,
             0
         )
@@ -86,7 +106,7 @@ export default function AdReffer() {
         await api.admin.applyPartnerToNextStage(query.id, partner_id)
         mutateFunnel()
     }
-
+    console.log(funnel)
     let studyModules = funnel?.study_modules?.map(module => (<Col grid='sm-6 md-6 lg-3 xl-3' key={module.id}> <StudyModuleCard onDelete={deleteStudyModule} onSave={(id, name, text) => updateStudyModule(id, name, text)} id={module.id} name={module.name} text={module.text} /></Col>))
     studyModules?.push(<Col grid='sm-6 md-6 lg-3 xl-3' key={'create'}> <StudyModuleCard create onSave={(name, text) => createStudyModule(name, text)}/></Col>)
 
@@ -122,7 +142,32 @@ export default function AdReffer() {
                                             type={'number'}
                                             onChange={e => setPrice(e.target.value)}
                                             value={price}
+                                            style={{marginBottom:16}}
+
                                         />
+                                        <Select value={studyTime} onChange={e => setStudyTime(e.target.value)} style={{backgroundColor:'white'}}>
+                                            <option value={1}>
+                                                1 сутки
+                                            </option>
+                                            <option value={2}>
+                                                2 суток
+                                            </option>
+                                            <option value={3}>
+                                                3 суток
+                                            </option>
+                                            <option value={4}>
+                                                4 суток
+                                            </option>
+                                            <option value={5}>
+                                                5 суток
+                                            </option>
+                                            <option value={6}>
+                                                6 суток
+                                            </option>
+                                            <option value={7}>
+                                                7 суток
+                                            </option>
+                                        </Select>
                                     </div>
                                     :
                                     "loading"

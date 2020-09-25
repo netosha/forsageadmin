@@ -26,6 +26,7 @@ export default function New() {
     const [studyModules, setStudyModules] = React.useState([])
     const [entryVideos, setEntryVideos] = React.useState([])
     const [mode, setMode] = React.useState(0)
+    const [studyTime, setStudyTime] = React.useState(1)
 
     function createStudyModule(name, text){
         setStudyModules([...studyModules, {name, text}])
@@ -57,7 +58,7 @@ export default function New() {
     }
 
     async function createFunnel(){
-        const funnel = await api.partner.createLeadFunnel(name, 1488, mode, entryVideos, 'loxloxlox', 1)
+        const funnel = await api.partner.createLeadFunnel(name, studyTime*3600*24, mode, entryVideos, 'business_offer', 1)
         console.log(funnel)
         const createdStudyModules = await Promise.all(studyModules.map(module => api.partner.createStudyModule(module.name, module.text)))
         const order = createdStudyModules.map(module => ({id:module.id}))
@@ -99,6 +100,29 @@ export default function New() {
                                             Ручная
                                         </option>
                                     </Select>
+                                    <Select value={studyTime} onChange={e => setStudyTime(e.target.value)} style={{marginTop:16, background:'white'}}>
+                                        <option value={1}>
+                                            1 сутки
+                                        </option>
+                                        <option value={2}>
+                                            2 суток
+                                        </option>
+                                        <option value={3}>
+                                            3 суток
+                                        </option>
+                                        <option value={4}>
+                                            4 суток
+                                        </option>
+                                        <option value={5}>
+                                            5 суток
+                                        </option>
+                                        <option value={6}>
+                                            6 суток
+                                        </option>
+                                        <option value={7}>
+                                            7 суток
+                                        </option>
+                                    </Select>
                                 </div>
                             </Col>
                         </Row>
@@ -135,7 +159,7 @@ export default function New() {
                             </Col>
                         </Row>
 
-                        <Row style={{marginBottom:24}}>
+                        <Row>
                             <Col grid='12'>
                                 <div className={styles.col}>
                                     <a className={styles.title}>Обучающие модули</a>

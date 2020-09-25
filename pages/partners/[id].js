@@ -64,12 +64,10 @@ export default function Partner() {
                             <Col grid='sm-12 md-12 lg-6 xl-6'>
                                 {partner && !error ?
                                     <div className={styles.col}>
-                                        <a className={styles.title}>{partner.username}</a>
-                                        <a>{partner.first_name}</a>
-                                        <a>{partner.last_name}</a>
-                                        <a>{partner.email}</a>
-                                        {partner.instagram ? <Link href={`https://instagram.com/${partner.instagram}`}><a>https://instagram.com/{partner.instagram}</a></Link> : ''}
-                                        {partner.telegram ? <Link href={`https://t.me/${partner.telegram}`}><a>https://t.me/{partner.telegram}</a></Link> : ''}
+                                        <a className={styles.title}>{partner.email}</a>
+                                        <a>{partner.first_name} {partner.last_name}</a>
+                                        {partner.instagram ? <Link href={partner.instagram}><a>{partner.instagram}</a></Link> : ''}
+                                        {partner.telegram ? <Link href={partner.telegram}><a>{partner.telegram}</a></Link> : ''}
                                         <a>{pfns.format('+N (NNN) NNN-NNNN', partner.phone)}</a>
                                     </div>
                                     :
