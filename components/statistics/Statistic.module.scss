@@ -1,0 +1,77 @@
+.statWrapper{
+  width: 100%;
+  // border: 1px solid #0001;
+}
+
+.statBottomWrapper{
+  display: inline-flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.mainVal{
+  display: flex;
+}
+
+.title{
+  text-transform: uppercase;
+  opacity: .5;
+  letter-spacing: 1px;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.currency{
+  text-transform: uppercase;
+  opacity: .5;
+  padding-left: 4px;
+}
+
+.value{
+  font-size: 68px;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.otherVal{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.prcntChangeDiv{
+  display: flex;
+  align-items: center;
+}
+
+.deltaChangeDiv{
+  display: flex;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.prevVal{
+  margin-top:8px;
+  font-size: 16px;
+  opacity: .5;
+  display: flex;
+  align-items: center;
+}
+
+.prcntChange{
+  display: flex;
+  flex-direction: column;
+  font-size: 22px;
+  padding-left: 8px;
+}
+
+.arrow{
+  height: 45px;
+  width: 45px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}

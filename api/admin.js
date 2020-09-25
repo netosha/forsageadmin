@@ -127,8 +127,6 @@ export async function applyPartnerToNextStage(funnel_id, partner_id){
     return resp
 }
 
-
-
 export async function landingRefferList(){
     var requestHeaders = new Headers();
     requestHeaders.append("Content-Type", `application/json`);
@@ -153,5 +151,18 @@ export async function editLandingReffer(id, landing_id, name, price, default_fun
         body:JSON.stringify({id, landing_id, name, price, default_funnel_id})
     };
     const resp = await fetcher('/admin/landingreffer/edit', requestOptions)
+    return resp
+}
+
+export async function statistics(period){
+    var requestHeaders = new Headers();
+    requestHeaders.append("Content-Type", `application/json`);
+    requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
+    var requestOptions = {
+        method: 'GET',
+        headers: requestHeaders,
+        redirect: 'follow'
+    };
+    const resp = await fetcher('/admin/statistics?days='+period, requestOptions)
     return resp
 }

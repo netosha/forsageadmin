@@ -1,7 +1,7 @@
 import Router, {useRouter} from 'next/router'
 import { Cookies } from 'react-cookie';
 import useUser from "../../hooks/useUser";
-import {Container, Row, Col, Avatar, message, Modal} from "flwww";
+import {Container, Icon,  Row, Col, Avatar, message, Modal} from "flwww";
 import styles from '../../styles/Pages.module.scss'
 import Menu from "../../components/menu";
 import Head from "next/head";
