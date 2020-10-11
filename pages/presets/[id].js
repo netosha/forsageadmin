@@ -44,7 +44,7 @@ export default function Funnel() {
     const {query} = useRouter()
     const {user, userError}  = useUser()
     const [name, setName] = React.useState('')
-    const [mode, setMode] = React.useState(0)
+    const [mode, setMode] = React.useState('')
     const [studyTime, setStudyTime] = React.useState(1)
     const [businessOffer, setBusinessOffer] = React.useState('')
     const [currentTab, setCurrentTab] = React.useState('write')
