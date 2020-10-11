@@ -51,7 +51,6 @@ export default function EntryVideoCard({...props}){
             >
                 {videoId(url) ?  <Icon.Edit3 size={48} color={'white'} /> : <Icon.Plus size={48} color={'gray'} /> }
             </div>
-
             <Modal isVisible={isModalVisible} toggleModal={isModalVisible ? closeModal : () => setModalVisible(!isModalVisible)}>
                 <div className={styles.Modal}>
                     <a className={styles.title}>

@@ -12,6 +12,7 @@ import * as pfns from 'phone-fns'
 import styles from '../../styles/Pages.module.scss'
 import {Input} from "../../blocks";
 import {Select} from "../../blocks";
+import { formatPhoneNumberIntl } from 'react-phone-number-input'
 
 const cookies = new Cookies();
 
@@ -31,13 +32,14 @@ export default function List() {
 
     // Define columns of table
     const columns = [ "Имя", "Фамилия", "Телефон", "Прогресс", "Партнер"];
-    const filteredLeads = filter === 'any' ? leads : leads.filter(lead => lead.stage == filter)
+    const sortedLeads = leads?.sort((a,b) => b.id - a.id)
+    const filteredLeads = filter === 'any' ? sortedLeads : sortedLeads.filter(lead => lead.stage == filter)
 
     const rows = filteredLeads?.map(lead => ({
         "Имя":lead.first_name,
         "Фамилия":lead.last_name,
         "Прогресс":api.utils.currentStageName(lead.stage),
-        "Телефон":pfns.format('+N (NNN) NNN-NNNN', lead.phone),
+        "Телефон":`${formatPhoneNumberIntl("+"+lead.phone)}`,
         "Партнер":`${lead.partner.first_name} ${lead.partner.last_name}`,
         // Meta info
         id:lead.id,

@@ -12,9 +12,11 @@ import Input from "../../blocks/Input";
 import {mutate} from 'swr'
 import StudyModuleCard from "../../components/studymodulecard/";
 import Table from "../../components/table/";
-
 import {Button} from "../../blocks";
 import * as pfns from "phone-fns";
+import Select from "../../blocks/Select";
+import React from "react";
+
 const cookies = new Cookies();
 
 export default function Funnel() {
@@ -30,9 +32,11 @@ export default function Funnel() {
     const {query} = useRouter()
     const {funnel, error, mutate:mutateFunnel} = useFunnel(query.id)
     const [name, setName] = React.useState(funnel?.name)
-    React.useEffect(()=>{setName(funnel?.name)}, [funnel])
+    const [businessOffer, setBusinessOffer] = React.useState(funnel?.business_offer)
+    const [isOpen, setIsOpen] = React.useState(1)
+    React.useEffect(()=>{setName(funnel?.name); setIsOpen(funnel?.closed === true ? 'closed' : 'open' ); console.log(funnel)}, [funnel])
 
-    React.useEffect(()=>{if(name) {api.admin.editPartnerFunnel(query.id, name)}}, [name])
+    React.useEffect(()=>{if(name) {api.admin.editPartnerFunnel(query.id, name, isOpen )}}, [name, isOpen])
 
     async function updateStudyModule(id, name, text){
         const resp = await api.partner.updateStudyModule(id, name, text)
@@ -99,6 +103,14 @@ export default function Funnel() {
                                             onChange={e => setName(e.target.value)}
                                             value={name}
                                         />
+                                        <Select value={isOpen} onChange={e => setIsOpen(e.target.value)} style={{marginTop:16, background:'white'}}>
+                                            <option value={'open'}>
+                                                Открытый
+                                            </option>
+                                            <option value={'closed'}>
+                                                Закрытый
+                                            </option>
+                                        </Select>
                                     </div>
                                     :
                                     "loading"

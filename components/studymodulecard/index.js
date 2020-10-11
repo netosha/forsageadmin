@@ -39,6 +39,14 @@ const Wrapper = styled.div`
     transition: 0.5s;
     background: ${props => props.selected ? '#115544' : '#80C0D0'};
   }
+  
+  @media (max-width: 768px){
+    margin-bottom: 16px;
+    
+    &:nth-last-child(){
+      margin-bottom: 0px;
+    }
+  }
 `
 
 const ButtonWrapper = styled.div`

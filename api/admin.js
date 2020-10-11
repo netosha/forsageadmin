@@ -75,7 +75,7 @@ export async function partnerFunnelInfo(id){
     return resp
 }
 
-export async function editPartnerFunnel(id, name){
+export async function editPartnerFunnel(id, name, isOpen){
     var requestHeaders = new Headers();
     requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
     requestHeaders.append("Content-Type", `application/json`);
@@ -83,13 +83,13 @@ export async function editPartnerFunnel(id, name){
         method: 'PUT',
         headers: requestHeaders,
         redirect: 'follow',
-        body:JSON.stringify({id, name})
+        body:JSON.stringify({id, name, closed:isOpen === 'open' ? false : true})
     };
     const resp = await fetcher('/admin/partner/partner_funnel', requestOptions)
     return resp
 }
 
-export async function createPartnerFunnel(name){
+export async function createPartnerFunnel(name, isOpen){
     var requestHeaders = new Headers();
     requestHeaders.append("Authorization", `Token ${cookies.get('token')}`);
     requestHeaders.append("Content-Type", `application/json`);
@@ -97,7 +97,7 @@ export async function createPartnerFunnel(name){
         method: 'POST',
         headers: requestHeaders,
         redirect: 'follow',
-        body:JSON.stringify({name})
+        body:JSON.stringify({name, closed:!isOpen})
     };
     const resp = await fetcher('/admin/partner/partner_funnel', requestOptions)
     return resp

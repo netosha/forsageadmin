@@ -13,6 +13,7 @@ import usePartner from "../../hooks/usePartner";
 import * as api from '../../api'
 import useFunnels from "../../hooks/useFunnels";
 import * as Icon from 'react-feather'
+import {formatPhoneNumberIntl} from "react-phone-number-input";
 const cookies = new Cookies();
 
 export default function Partner() {
@@ -43,7 +44,7 @@ export default function Partner() {
         "Имя":lead.first_name,
         "Фамилия":lead.last_name,
         "Прогресс":api.utils.currentStageName(lead.stage),
-        "Телефон":pfns.format('+N (NNN) NNN-NNNN', lead.phone),
+        "Телефон":`${formatPhoneNumberIntl("+"+lead.phone)}`,
         // Meta info
         id:lead.id,
         onClick:() => {Router.push('/leads/'+lead.id)}
@@ -68,7 +69,7 @@ export default function Partner() {
                                         <a>{partner.first_name} {partner.last_name}</a>
                                         {partner.instagram ? <Link href={partner.instagram}><a>{partner.instagram}</a></Link> : ''}
                                         {partner.telegram ? <Link href={partner.telegram}><a>{partner.telegram}</a></Link> : ''}
-                                        <a>{pfns.format('+N (NNN) NNN-NNNN', partner.phone)}</a>
+                                        <a>{formatPhoneNumberIntl("+"+partner.phone)}</a>
                                     </div>
                                     :
                                     'loading'

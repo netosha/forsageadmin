@@ -1,14 +1,23 @@
+.wrapper{
+  background: red;
+  margin-bottom: 16px;
+}
+
 .EntryVideoCard{
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100px;
   border-radius: 8px;
-  background: #f0f0f0;
   transition: 0.5s;
   background-size: auto 100%;
   background-repeat: no-repeat;
   background-position: left top;
+
+  @media(max-width: 768px){
+    margin-bottom: 16px;
+  }
+
 
   &:hover{
     background: #DDDDDD;

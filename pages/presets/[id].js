@@ -1,6 +1,11 @@
 import Router, {useRouter} from 'next/router'
 import { Cookies } from 'react-cookie';
 import useUser from "../../hooks/useUser";
+
+import ReactMde from "react-mde";
+import * as Showdown from "showdown";
+import 'showdown-youtube'
+
 import {Container, Icon,  Row, Col, Avatar, message, Modal} from "flwww";
 import styles from '../../styles/Pages.module.scss'
 import Menu from "../../components/menu";
@@ -17,7 +22,16 @@ import {mutate} from "swr";
 import StudyModuleCard from "../../components/studymodulecard";
 import Select from "../../blocks/Select";
 import {Button} from "../../blocks";
+import React from "react";
+
 const cookies = new Cookies();
+const converter = new Showdown.Converter({
+    extensions: ['youtube'],
+    tables: true,
+    simplifiedAutoLink: true,
+    strikethrough: true,
+    tasklists: true,
+});
 
 export default function Funnel() {
     // Redirect to login page if user unauthorized
@@ -32,27 +46,30 @@ export default function Funnel() {
     const [name, setName] = React.useState('')
     const [mode, setMode] = React.useState(0)
     const [studyTime, setStudyTime] = React.useState(1)
+    const [businessOffer, setBusinessOffer] = React.useState('')
+    const [currentTab, setCurrentTab] = React.useState('write')
 
     const {funnel, mutate:mutateFunnel} = useLeadFunnel(query.id)
     React.useEffect(()=>{if(!name){setName(funnel?.name)}}, [funnel])
     React.useEffect(()=>{if(!mode){setMode(funnel?.mode)}}, [funnel])
     React.useEffect(()=>{setStudyTime(funnel?.study_time / 3600 / 24)}, [funnel])
+    React.useEffect(()=>{if(!businessOffer){setBusinessOffer(funnel?.business_offer)}}, [funnel])
 
 
     React.useEffect(() => {
-        if(name){
+        if(name && businessOffer){
             api.partner.editLeadFunnel(
                 funnel.id,
                 name,
                 studyTime*3600*24,
                 mode,
                 funnel.entryVideos,
-                funnel.business_offer,
+                businessOffer,
                 1,
             )
             mutateFunnel()
         }
-    }, [name, mode, studyTime])
+    }, [name, mode, studyTime, businessOffer])
 
 
 
@@ -204,6 +221,20 @@ export default function Funnel() {
                                     :
                                     "loading"
                                 }
+                            </Col>
+                        </Row>
+
+                        <Row>
+                            <Col grid={'12'} style={{marginBottom:24}}>
+                                <ReactMde
+                                    value={businessOffer}
+                                    selectedTab={currentTab}
+                                    onChange={setBusinessOffer}
+                                    onTabChange={setCurrentTab}
+                                    generateMarkdownPreview={markdown =>
+                                        Promise.resolve(converter.makeHtml(markdown))
+                                    }
+                                />
                             </Col>
                         </Row>
 

@@ -12,6 +12,8 @@ import {Button} from '../../blocks/'
 import StudyModuleCard from "../../components/studymodulecard/";
 import EntryVideoCard from "../../components/entryvideocard";
 import Select from "../../blocks/Select";
+import ReactMde from "react-mde";
+import React from "react";
 const cookies = new Cookies();
 
 export default function New() {
@@ -27,6 +29,9 @@ export default function New() {
     const [entryVideos, setEntryVideos] = React.useState([])
     const [mode, setMode] = React.useState(0)
     const [studyTime, setStudyTime] = React.useState(1)
+    const [businessOffer, setBusinessOffer] = React.useState('a')
+
+    const [currentTab, setCurrentTab] = React.useState('write')
 
     function createStudyModule(name, text){
         setStudyModules([...studyModules, {name, text}])
@@ -58,7 +63,7 @@ export default function New() {
     }
 
     async function createFunnel(){
-        const funnel = await api.partner.createLeadFunnel(name, studyTime*3600*24, mode, entryVideos, 'business_offer', 1)
+        const funnel = await api.partner.createLeadFunnel(name, studyTime*3600*24, mode, entryVideos, businessOffer, 1)
         console.log(funnel)
         const createdStudyModules = await Promise.all(studyModules.map(module => api.partner.createStudyModule(module.name, module.text)))
         const order = createdStudyModules.map(module => ({id:module.id}))
@@ -84,7 +89,6 @@ export default function New() {
                             <Col grid='12'>
                                 <div className={styles.col}>
                                     <a className={styles.title}>Настройки воронки</a>
-                                    <div></div>
                                     <Input
                                         name={'name'}
                                         type={'text'}
@@ -93,11 +97,11 @@ export default function New() {
                                         value={name}
                                     />
                                     <Select value={mode} onChange={e => setMode(e.target.value)} style={{marginTop:16, background:'white'}}>
-                                        <option>
-                                            Автоматическая
-                                        </option>
-                                        <option>
+                                        <option value={0}>
                                             Ручная
+                                        </option>
+                                        <option value={1}>
+                                            Автоматическая
                                         </option>
                                     </Select>
                                     <Select value={studyTime} onChange={e => setStudyTime(e.target.value)} style={{marginTop:16, background:'white'}}>
@@ -159,6 +163,7 @@ export default function New() {
                             </Col>
                         </Row>
 
+
                         <Row>
                             <Col grid='12'>
                                 <div className={styles.col}>
@@ -171,10 +176,23 @@ export default function New() {
                             </Col>
                         </Row>
 
+                        <Row>
+                            <Col grid={'12'} style={{marginBottom:24}}>
+                                <ReactMde
+                                    value={businessOffer}
+                                    selectedTab={currentTab}
+                                    onChange={setBusinessOffer}
+                                    onTabChange={setCurrentTab}
+                                    generateMarkdownPreview={markdown =>
+                                        Promise.resolve(converter.makeHtml(markdown))
+                                    }
+                                />
+                            </Col>
+                        </Row>
 
                         <Row>
                             <Col grid={"12"}>
-                                {name.length && studyModules.length && entryVideos.length == 2 ?
+                                {name.length && studyModules.length && entryVideos.length == 2 && businessOffer.length ?
                                     <Button onClick={() => createFunnel()}>
                                         Создать
                                     </Button>

@@ -9,6 +9,7 @@ import Header from "../../components/header";
 import usePartners from "../../hooks/usePartners";
 import * as pfns from 'phone-fns'
 import styles from '../../styles/Pages.module.scss'
+import {formatPhoneNumberIntl} from "react-phone-number-input";
 
 
 const cookies = new Cookies();
@@ -30,7 +31,7 @@ export default function List() {
         "Имя":partner.first_name,
         "Фамилия":partner.last_name,
         "Оплачено до":(() => {return new Date(partner.paid_until).toLocaleDateString()})(),
-        "Телефон":pfns.format('+N (NNN) NNN-NNNN', partner.phone),
+        "Телефон":formatPhoneNumberIntl("+"+partner.phone),
 
         // Meta info
         id:partner.id,

@@ -11,6 +11,7 @@ import Header from "../../components/header";
 import useLead from "../../hooks/useLead";
 import {Button} from '../../blocks/'
 import * as api from '../../api'
+import {formatPhoneNumberIntl} from "react-phone-number-input";
 const cookies = new Cookies();
 
 export default function Lead() {
@@ -51,7 +52,7 @@ export default function Lead() {
                                         <a className={styles.title}>{lead.email}</a>
                                         <a>{lead.first_name}</a>
                                         <a>{lead.last_name}</a>
-                                        <a>{pfns.format('+N (NNN) NNN-NNNN', lead.phone)}</a>
+                                        <a>{`${formatPhoneNumberIntl("+"+lead.phone)}`}</a>
                                         {lead.instagram ? <Link href={lead.instagram}><a>{lead.instagram}</a></Link> : ''}
                                         {lead.telegram ? <Link href={lead.telegram}><a>{lead.telegram}</a></Link> : ''}
                                     </div>
