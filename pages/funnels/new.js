@@ -69,14 +69,15 @@ export default function New() {
                         <Row >
                             <Col grid='12'>
                                 <div className={styles.col}>
-                                    <a className={styles.title}>Настройки воронки</a>
+                                    <a className={styles.title}>Настройки курса</a>
                                     <Input
                                         name={'name'}
                                         type={'text'}
-                                        placeholder={'Название воронки'}
+                                        placeholder={'Название курса'}
                                         onChange={e => setName(e.target.value)}
                                         value={name}
                                     />
+                                    <a>Тип курса</a>
                                     <Select value={closed} onChange={e => setClosed(e.target.value)} style={{marginTop:16, background:'white'}}>
                                         <option value={false}>
                                             Открытый

@@ -119,9 +119,9 @@ export default function Funnel() {
                             <Col grid='12'>
                                 {funnel ?
                                     <div className={styles.col}>
-                                        <a className={styles.title}>Настройки воронки</a>
+                                        <a className={styles.title}>Настройки курса</a>
                                         <Input
-                                            placeholder={'Название воронки'}
+                                            placeholder={'Название курса'}
                                             name={'name'}
                                             type={'text'}
                                             onChange={e => setName(e.target.value)}
