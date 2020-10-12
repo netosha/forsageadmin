@@ -127,7 +127,6 @@ export default function Funnel() {
                                             onChange={e => setName(e.target.value)}
                                             value={name}
                                         />
-                                        {closed}
                                         <Select value={closed} onChange={e => setClosed(e.target.value)} style={{marginTop:16, background:'white'}}>
                                             <option value={false}>
                                                 Открытый
