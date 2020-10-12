@@ -77,7 +77,6 @@ export default function New() {
                                         onChange={e => setName(e.target.value)}
                                         value={name}
                                     />
-                                    {closed.toString()}
                                     <Select value={closed} onChange={e => setClosed(e.target.value)} style={{marginTop:16, background:'white'}}>
                                         <option value={false}>
                                             Открытый
