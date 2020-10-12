@@ -77,8 +77,8 @@ export default function New() {
                                         onChange={e => setName(e.target.value)}
                                         value={name}
                                     />
-                                    <a>Тип курса</a>
-                                    <Select value={closed} onChange={e => setClosed(e.target.value)} style={{marginTop:16, background:'white'}}>
+                                    <a style={{marginTop:16}}>Тип курса</a>
+                                    <Select value={closed} onChange={e => setClosed(e.target.value)} style={{background:'white'}}>
                                         <option value={false}>
                                             Открытый
                                         </option>
