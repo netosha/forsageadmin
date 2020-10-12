@@ -31,12 +31,36 @@ export default function Funnel() {
 
     const {query} = useRouter()
     const {funnel, error, mutate:mutateFunnel} = useFunnel(query.id)
+    console.log('funnel from', funnel)
     const [name, setName] = React.useState(funnel?.name)
     const [businessOffer, setBusinessOffer] = React.useState(funnel?.business_offer)
-    const [isOpen, setIsOpen] = React.useState(1)
-    React.useEffect(()=>{setName(funnel?.name); setIsOpen(funnel?.closed === true ? 'closed' : 'open' ); console.log(funnel)}, [funnel])
+    const [closed, setClosed] = React.useState(undefined)
 
-    React.useEffect(()=>{if(name) {api.admin.editPartnerFunnel(query.id, name, isOpen )}}, [name, isOpen])
+    React.useEffect(()=>{
+        if(!name){
+            setName(funnel?.name)
+        }
+        if(typeof closed === 'undefined'){
+            console.log(funnel?.closed)
+            setClosed(funnel?.closed)
+        }
+
+    }, [funnel])
+
+
+    React.useEffect(() => {
+        (async () => {
+            if(name && closed ){
+            console.log('funnel changed to', name, closed)
+            await api.admin.editPartnerFunnel(
+                query.id,
+                name,
+                closed
+            )
+            mutateFunnel({...funnel, name, closed})
+        }
+        })()
+    }, [name, closed])
 
     async function updateStudyModule(id, name, text){
         const resp = await api.partner.updateStudyModule(id, name, text)
@@ -68,7 +92,7 @@ export default function Funnel() {
 
     // Init table
     const columns = ['Имя', 'Фамилия','Телефон', 'Стадия']
-    const rows = funnel?.partners.map(partner => (
+    const rows = funnel?.partners?.map(partner => (
         {
             'Имя':partner.first_name,
             'Фамилия':partner.last_name,
@@ -103,11 +127,12 @@ export default function Funnel() {
                                             onChange={e => setName(e.target.value)}
                                             value={name}
                                         />
-                                        <Select value={isOpen} onChange={e => setIsOpen(e.target.value)} style={{marginTop:16, background:'white'}}>
-                                            <option value={'open'}>
+                                        {closed}
+                                        <Select value={closed} onChange={e => setClosed(e.target.value)} style={{marginTop:16, background:'white'}}>
+                                            <option value={false}>
                                                 Открытый
                                             </option>
-                                            <option value={'closed'}>
+                                            <option value={true}>
                                                 Закрытый
                                             </option>
                                         </Select>

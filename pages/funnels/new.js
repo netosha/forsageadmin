@@ -22,7 +22,7 @@ export default function New() {
     const {user, userError}  = useUser()
     const {query} = useRouter()
     const [name, setName] = React.useState('')
-    const [isOpen, setIsOpen] = React.useState(true)
+    const [closed, setClosed] = React.useState(true)
     const [studyModules, setStudyModules] = React.useState([])
 
     function createStudyModule(name, text){
@@ -44,7 +44,7 @@ export default function New() {
     }
 
     async function createFunnel(){
-        const funnel = await api.admin.createPartnerFunnel(name, isOpen)
+        const funnel = await api.admin.createPartnerFunnel(name, closed)
         const createdStudyModules = await Promise.all(studyModules.map(module => api.partner.createStudyModule(module.name, module.text)))
         const order = createdStudyModules.map(module => ({id:module.id}))
         api.partner.setStudyModuleOrder(funnel.id, order)
@@ -77,11 +77,12 @@ export default function New() {
                                         onChange={e => setName(e.target.value)}
                                         value={name}
                                     />
-                                    <Select value={isOpen} onChange={e => setIsOpen(e.target.value)} style={{marginTop:16, background:'white'}}>
-                                        <option value={true}>
+                                    {closed.toString()}
+                                    <Select value={closed} onChange={e => setClosed(e.target.value)} style={{marginTop:16, background:'white'}}>
+                                        <option value={false}>
                                             Открытый
                                         </option>
-                                        <option value={false}>
+                                        <option value={true}>
                                             Закрытый
                                         </option>
                                     </Select>

@@ -44,7 +44,7 @@ export default function Funnel() {
     const {query} = useRouter()
     const {user, userError}  = useUser()
     const [name, setName] = React.useState('')
-    const [mode, setMode] = React.useState('')
+    const [mode, setMode] = React.useState(0)
     const [studyTime, setStudyTime] = React.useState(1)
     const [businessOffer, setBusinessOffer] = React.useState('')
     const [currentTab, setCurrentTab] = React.useState('write')
@@ -57,18 +57,20 @@ export default function Funnel() {
 
 
     React.useEffect(() => {
-        if(name && businessOffer){
-            api.partner.editLeadFunnel(
-                funnel.id,
-                name,
-                studyTime*3600*24,
-                mode,
-                funnel.entryVideos,
-                businessOffer,
-                1,
-            )
-            mutateFunnel()
-        }
+        (async () => {
+            if(name && businessOffer){
+                api.partner.editLeadFunnel(
+                    funnel.id,
+                    name,
+                    studyTime*3600*24,
+                    mode,
+                    funnel.entryVideos,
+                    businessOffer,
+                    1,
+                )
+                mutateFunnel()
+            }
+        })()
     }, [name, mode, studyTime, businessOffer])
 
 
