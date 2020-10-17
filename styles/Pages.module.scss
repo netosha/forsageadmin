@@ -66,6 +66,12 @@ a.title{
 }
 
 .card {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
   margin: 1rem;
   flex-basis: 45%;
   padding: 1.5rem;
@@ -147,6 +153,12 @@ a.title{
 }
 
 .funnelCard{
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
   color:black;
   background: #f0f0f0;
   border-radius: 8px;
@@ -168,6 +180,12 @@ a.title{
 }
 
 .educationFunnnelCard{
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
   border-radius: 8px;
   font-weight:500;
   display: flex;

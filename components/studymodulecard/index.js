@@ -26,6 +26,12 @@ const Title = styled.p`
 `
 
 const Wrapper = styled.div`
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  
   display: flex;
   flex-shrink: 0;
   padding: 12px;
@@ -166,7 +172,7 @@ export default class StudyModuleCard extends Component {
                 {!this.props.create ?
                     <Wrapper onClick={this.toggleModal}>
                         <Name>
-                            {this.props.name}
+                            {this.props.name.slice(0, 35)}
                         </Name>
                     </Wrapper>
                     :

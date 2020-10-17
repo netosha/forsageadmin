@@ -30,7 +30,7 @@ export default function List() {
             <Link href={'/presets/'+funnel.id}>
                 <div className={styles.funnelCard} style={{marginBottom:16}}>
                     <a className={styles.title} style={{marginBottom:0}}>
-                        {funnel.name}
+                        {funnel.name.slice(0,20)}
                     </a>
                     <a className={styles.description}>
                         Пресет
