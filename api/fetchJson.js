@@ -1,6 +1,6 @@
 export default async function fetcher(url, ...args) {
     try {
-        const response = await fetch('http://95.179.181.235:8080'+url, ...args)
+        const response = await fetch('https://api.ixpace.ru'+url, ...args)
         // if the server replies, there's always some data in json
         // if there's a network error, it will throw at the previous line
         const data = await response.json()
